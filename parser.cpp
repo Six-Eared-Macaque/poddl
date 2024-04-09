@@ -25,7 +25,7 @@
 #include "poddl.hpp"
 #include "html_coder.hpp"
 
-std::string const enclosure_pattern = "<enclosure.*?url=[\"|'](.+?)[\"|'].*?>";
+std::string const enclosure_pattern = "<enclosure[\\s\\S]*?url=([\"'])([\\s\\S]*?)\\1[\\s\\S]*?>";
 std::string const title_pattern = "<title>(.+?)</title>";
 std::string const pubdate_pattern = "<pubDate>(.+?)</pubDate>";
 std::string const cdata_pattern = "<\\!\\[CDATA\\[(.+?)\\]\\]>";
@@ -61,7 +61,7 @@ std::vector<Podcast> Parser::get_items(const std::string &xml, bool reverse) {
         
         //URL
         if (std::regex_search(item, match_enclosure, regex_enclosure)) {
-            url = match_enclosure.str(1);
+            url = match_enclosure.str(2);
         }
         
         //Title
